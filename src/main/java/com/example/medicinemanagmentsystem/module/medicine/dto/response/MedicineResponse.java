@@ -1,9 +1,6 @@
 package com.example.medicinemanagmentsystem.module.medicine.dto.response;
 
 import com.example.medicinemanagmentsystem.module.category.dto.response.CategoryResponse;
-import com.example.medicinemanagmentsystem.module.category.entity.Category;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

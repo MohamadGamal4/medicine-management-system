@@ -4,6 +4,7 @@ import com.example.medicinemanagmentsystem.module.category.dto.request.CategoryR
 import com.example.medicinemanagmentsystem.module.category.dto.response.CategoryResponse;
 import com.example.medicinemanagmentsystem.module.category.service.CategoryService;
 import com.example.medicinemanagmentsystem.module.medicine.dto.response.MedicineResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @PostMapping
-   public ResponseEntity<CategoryResponse> CreateCategory (@RequestBody CategoryRequest request){
+   public ResponseEntity<CategoryResponse> createCategory (@Valid @RequestBody CategoryRequest request){
       CategoryResponse categoryResponse = categoryService.createCategory(request);
       return ResponseEntity.status(HttpStatus.CREATED).body(categoryResponse);
     }

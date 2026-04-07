@@ -7,25 +7,25 @@ import com.example.medicinemanagmentsystem.module.category.mapper.CategoryMapper
 import com.example.medicinemanagmentsystem.module.category.repository.CategoryRepository;
 import com.example.medicinemanagmentsystem.module.category.service.CategoryService;
 import com.example.medicinemanagmentsystem.module.medicine.dto.response.MedicineResponse;
+import com.example.medicinemanagmentsystem.module.medicine.mapper.MedicineMapper;
 import jakarta.persistence.EntityNotFoundException;
-import lombok.Getter;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
-@Setter
-@Getter
 @Service
-public class CarogoryServiceImpl implements CategoryService {
+public class CategoryServiceImpl implements CategoryService {
     private final CategoryMapper categoryMapper;
     private final CategoryRepository categoryRepository;
+    private final MedicineMapper medicineMapper;
 
 
     @Override
+    @Transactional
     public CategoryResponse createCategory(CategoryRequest request) {
         Category category = categoryMapper.toEntity(request);
         return categoryMapper.toResponse(categoryRepository.save(category));
@@ -45,6 +45,7 @@ public class CarogoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @Transactional
     public CategoryResponse updateCategory(UUID id, CategoryRequest request) {
 
         Category category = categoryRepository.findById(id)
@@ -58,6 +59,7 @@ public class CarogoryServiceImpl implements CategoryService {
 
 
     @Override
+    @Transactional
     public void deleteCategory(UUID id) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Category not found"));
@@ -71,7 +73,7 @@ public class CarogoryServiceImpl implements CategoryService {
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new EntityNotFoundException("Category not found"));
         return category.getMedicines()
-                .stream().map(categoryMapper::toMidicineResponse).toList();
+                .stream().map(medicineMapper::toResponse).toList();
     }
 
 

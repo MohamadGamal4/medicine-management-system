@@ -9,6 +9,7 @@ import com.example.medicinemanagmentsystem.module.medicine.mapper.MedicineMapper
 import com.example.medicinemanagmentsystem.module.medicine.repository.MedicineRepository;
 import com.example.medicinemanagmentsystem.module.medicine.service.MedicineService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,7 @@ public class MedicineServiceImpl implements MedicineService {
     private final CategoryRepository categoryRepository;
 
     @Override
+    @Transactional
     public MedicineResponse createMedicine(MedicineRequest request) {
 
         Category category = categoryRepository.findById(request.getCategoryId()).orElseThrow(() -> new EntityNotFoundException("Category not found"));
@@ -52,6 +54,7 @@ public class MedicineServiceImpl implements MedicineService {
 
 
     @Override
+    @Transactional
     public MedicineResponse updateMedicine(UUID id, MedicineRequest request) {
         Medicine medicine = medicineRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Medicine not found"));
@@ -63,6 +66,7 @@ public class MedicineServiceImpl implements MedicineService {
     }
 
     @Override
+    @Transactional
     public void deleteMedicine(UUID id) {
         Medicine medicine = medicineRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Medicine not found"));
@@ -91,6 +95,7 @@ public class MedicineServiceImpl implements MedicineService {
 
 
     @Override
+    @Transactional
     public MedicineResponse updateStock(UUID id, Integer quantity) {
         Medicine medicine = medicineRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Medicine not found"));
         medicine.setQuantityInStock(quantity);
