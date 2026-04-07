@@ -1,22 +1,26 @@
 package com.example.medicinemanagmentsystem.module.medicine.controller;
 
+import com.example.medicinemanagmentsystem.module.medicine.dto.request.MedicineRequest;
+import com.example.medicinemanagmentsystem.module.medicine.dto.response.MedicineResponse;
+import com.example.medicinemanagmentsystem.module.medicine.service.MedicineService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/medicines")
 @RequiredArgsConstructor
 public class MedicineController {
-   private final MedicineService medicineService;
+    private final MedicineService medicineService;
 
     @PostMapping
     public ResponseEntity<MedicineResponse> createMedicine(
-            @RequestBody MedicineRequest request) {
+            @Valid @RequestBody MedicineRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(medicineService.createMedicine(request));
     }
 
@@ -56,13 +60,12 @@ public class MedicineController {
 
     @GetMapping("/low-stock")
     public ResponseEntity<List<MedicineResponse>> getLowStockMedicines(
-            @RequestParam(defaultValue = "10")  Integer threshold) {
+            @RequestParam(defaultValue = "10") Integer threshold) {
         return ResponseEntity.ok(medicineService.getLowStockMedicines(threshold));
     }
 
     // PATCH /api/v1/medicines/{id}/stock?quantity=50
     @PatchMapping("/{id}/stock")
-    @Operation(summary = "Update the stock quantity of a medicine")
     public ResponseEntity<MedicineResponse> updateStock(
             @PathVariable UUID id,
             @RequestParam Integer quantity) {

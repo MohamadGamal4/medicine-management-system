@@ -1,6 +1,9 @@
 package com.example.medicinemanagmentsystem.module.category.controller;
 
+import com.example.medicinemanagmentsystem.module.category.dto.request.CategoryRequest;
 import com.example.medicinemanagmentsystem.module.category.dto.response.CategoryResponse;
+import com.example.medicinemanagmentsystem.module.category.service.CategoryService;
+import com.example.medicinemanagmentsystem.module.medicine.dto.response.MedicineResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,8 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
-
 @RestController
 @RequestMapping("/api/v1/categories")
 @RequiredArgsConstructor
@@ -18,7 +19,7 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @PostMapping
-   public ResponseEntity<CategoryResponse> CreateCategory (@RequestBody CreateCategoryRequest request){
+   public ResponseEntity<CategoryResponse> CreateCategory (@RequestBody CategoryRequest request){
       CategoryResponse categoryResponse = categoryService.createCategory(request);
       return ResponseEntity.status(HttpStatus.CREATED).body(categoryResponse);
     }
