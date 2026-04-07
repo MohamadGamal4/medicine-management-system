@@ -14,22 +14,26 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotFound(EntityNotFoundException ex) {
         ErrorResponse error = new ErrorResponse(
-                ex.getMessage(),
                 HttpStatus.NOT_FOUND.value(),
-                LocalDateTime.now()
+                "Not Found",
+                ex.getMessage(),
+                null,
+                LocalDateTime.now(),
+                null
         );
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGeneral(Exception ex) {
-
         ErrorResponse error = new ErrorResponse(
-                ex.getMessage(),
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                LocalDateTime.now()
+                "Internal Server Error",
+                ex.getMessage(),
+                null,
+                LocalDateTime.now(),
+                null
         );
-
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
 
